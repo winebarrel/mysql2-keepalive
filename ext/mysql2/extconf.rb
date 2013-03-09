@@ -65,3 +65,5 @@ if RbConfig::MAKEFILE_CONFIG['CC'] =~ /gcc/
     $LDFLAGS << " -Wl,-rpath,#{hard_mysql_path}"
   end
 end
+
+create_makefile('mysql2/keepalive')

@@ -2,3 +2,4 @@ syntax: glob
 *.so
 *.o
 Makefile
+test.rb
