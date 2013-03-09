@@ -1,0 +1,21 @@
+= mysql2-keepalive
+
+== Description
+
+TCP keepalive extension for Mysql2
+
+== Install
+
+gem install mysql2-keepalive
+
+== Example
+
+  require 'mysql2'
+  require 'mysql2/keepalive'
+  
+  client = Mysql2::Client.new(:host => 'mysql.example.com', :username => 'scott', :password => 'tiger')
+  
+  client.keepalive = true
+  client.keepidle = 15
+  client.keepintvl = 5
+  client.keepcnt = 3
