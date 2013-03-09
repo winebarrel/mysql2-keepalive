@@ -99,6 +99,49 @@ static VALUE rb_mysql2_keepalive_set_keepidle(VALUE self, VALUE vOptval) {
   return Qnil;
 }
 
+/* get TCP_KEEPINTVL */
+static VALUE rb_mysql2_client_get_keepintvl(VALUE self) {
+#ifdef TCP_KEEPINTVL
+  mysql_client_wrapper *wrapper;
+  int sockfd, optval, rv;
+  socklen_t optlen;
+
+  Data_Get_Struct(self, mysql_client_wrapper, wrapper);
+  sockfd = vio_fd(wrapper->client->net.vio);
+
+  optlen = sizeof(optval);
+  rv = getsockopt(sockfd, IPPROTO_TCP, TCP_KEEPINTVL, (void*) &optval, &optlen);
+
+  if (rv != 0) { 
+    rb_raise(rb_eMysql2KeepaliveError, "%s", strerror(errno));
+  }
+
+  return INT2NUM(optval);
+#else
+  return Qnil;
+#endif
+}
+
+/* set TCP_KEEPINTVL */
+static VALUE rb_mysql2_client_set_keepintvl(VALUE self, VALUE vOptval) {
+#ifdef TCP_KEEPINTVL
+  mysql_client_wrapper *wrapper;
+  int sockfd, optval, rv;
+
+  Data_Get_Struct(self, mysql_client_wrapper, wrapper);
+  sockfd = vio_fd(wrapper->client->net.vio);
+  optval = NUM2INT(vOptval);
+
+  rv = setsockopt(sockfd, IPPROTO_TCP, TCP_KEEPINTVL, (void*) &optval, sizeof(optval));
+
+  if (rv != 0) { 
+    rb_raise(rb_eMysql2KeepaliveError, "%s", strerror(errno));
+  }
+#endif
+
+  return Qnil;
+}
+
 void Init_keepalive() {
   VALUE rb_cMysql2, rb_cMysql2Client;
   VALUE args[2];
@@ -132,5 +175,9 @@ void Init_keepalive() {
   // TCP_KEEPIDLE
   rb_define_module_function(rb_cMysql2Client, "keepidle", rb_mysql2_keepalive_get_keepidle, 0);
   rb_define_module_function(rb_cMysql2Client, "keepidle=", rb_mysql2_keepalive_set_keepidle, 1);
+
+  // TCP_KEEPINTVL
+  rb_define_module_function(rb_cMysql2Client, "keepintvl", rb_mysql2_client_get_keepintvl, 1);
+  rb_define_module_function(rb_cMysql2Client, "keepintvl=", rb_mysql2_client_set_keepintvl, 2);
 }
 
