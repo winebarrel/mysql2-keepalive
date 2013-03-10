@@ -3,6 +3,7 @@
 == Description
 
 TCP keepalive extension for Mysql2
+see tcp(7)
 
 == Install
 

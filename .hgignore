@@ -3,3 +3,4 @@ syntax: glob
 *.o
 Makefile
 test.rb
+*.gem
