@@ -10,4 +10,5 @@ Gem::Specification.new do |spec|
   spec.homepage          = 'https://bitbucket.org/winebarrel/mysql2-keepalive'
   spec.extensions        = 'ext/mysql2/extconf.rb'
   spec.has_rdoc          = false
+  spec.add_dependency('mysql2', '~> 0.3.11').
 end

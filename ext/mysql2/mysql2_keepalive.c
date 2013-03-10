@@ -209,22 +209,22 @@ void Init_keepalive() {
     rb_jump_tag(status);
   }
 
-  VALUE rb_mMysql2Keepalive = rb_define_module("Keepalive");
-  rb_eMysql2KeepaliveError = rb_define_class_under(rb_mMysql2Keepalive, "Error", rb_eStandardError);
+  VALUE rb_cMysql2Keepalive = rb_define_class_under(rb_cMysql2Client, "Keepalive", rb_cObject);
+  rb_eMysql2KeepaliveError = rb_define_class_under(rb_cMysql2Keepalive, "Error", rb_eStandardError);
 
   // SO_KEEPALIVE
-  rb_define_module_function(rb_cMysql2Client, "keepalive", rb_mysql2_keepalive_get_keepalive, 0);
-  rb_define_module_function(rb_cMysql2Client, "keepalive=", rb_mysql2_keepalive_set_keepalive, 1);
+  rb_define_method(rb_cMysql2Client, "keepalive", rb_mysql2_keepalive_get_keepalive, 0);
+  rb_define_method(rb_cMysql2Client, "keepalive=", rb_mysql2_keepalive_set_keepalive, 1);
 
   // TCP_KEEPIDLE
-  rb_define_module_function(rb_cMysql2Client, "keepidle", rb_mysql2_keepalive_get_keepidle, 0);
-  rb_define_module_function(rb_cMysql2Client, "keepidle=", rb_mysql2_keepalive_set_keepidle, 1);
+  rb_define_method(rb_cMysql2Client, "keepidle", rb_mysql2_keepalive_get_keepidle, 0);
+  rb_define_method(rb_cMysql2Client, "keepidle=", rb_mysql2_keepalive_set_keepidle, 1);
 
   // TCP_KEEPINTVL
-  rb_define_module_function(rb_cMysql2Client, "keepintvl", rb_mysql2_client_get_keepintvl, 0);
-  rb_define_module_function(rb_cMysql2Client, "keepintvl=", rb_mysql2_client_set_keepintvl, 1);
+  rb_define_method(rb_cMysql2Client, "keepintvl", rb_mysql2_client_get_keepintvl, 0);
+  rb_define_method(rb_cMysql2Client, "keepintvl=", rb_mysql2_client_set_keepintvl, 1);
 
   // TCP_KEEPCNT
-  rb_define_module_function(rb_cMysql2Client, "keepcnt", rb_mysql2_client_get_keepcnt, 0);
-  rb_define_module_function(rb_cMysql2Client, "keepcnt=", rb_mysql2_client_set_keepcnt, 1);
+  rb_define_method(rb_cMysql2Client, "keepcnt", rb_mysql2_client_get_keepcnt, 0);
+  rb_define_method(rb_cMysql2Client, "keepcnt=", rb_mysql2_client_set_keepcnt, 1);
 }

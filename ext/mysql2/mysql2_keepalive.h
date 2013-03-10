@@ -1,7 +1,11 @@
 #ifndef _MYSQL2_KEEPALIVEL_H_
 #define _MYSQL2_KEEPALIVEL_H_
 
+#ifdef HAVE_MYSQL_H
+#include <mysql.h>
+#else
 #include <mysql/mysql.h>
+#endif
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -22,11 +26,9 @@
 // see https://github.com/brianmario/mysql2/blob/master/ext/mysql2/client.h
 typedef struct {
   VALUE encoding;
-  VALUE active_thread; /* rb_thread_current() or Qnil */
-  int reconnect_enabled;
   int active;
-  int connected;
-  int initialized;
+  int reconnect_enabled;
+  int closed;
   MYSQL *client;
 } mysql_client_wrapper;
 
